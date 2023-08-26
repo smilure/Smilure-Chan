@@ -4,7 +4,7 @@
     <title>SmilureChan</title>
 </head>
 <body>
-    <h1>SmilureChan</h1>
+    <h1>não poluam o site</h1>
     
     <form id="post-form">
         <label for="image">Upload an image:</label>
@@ -17,11 +17,25 @@
     </div>
 
     <script>
+        const imageContainer = document.getElementById('image-container');
+        
+        // Load images from local storage on page load
+        window.addEventListener('load', function() {
+            const images = JSON.parse(localStorage.getItem('images')) || [];
+            
+            images.forEach(function(imageUrl) {
+                const imageElement = document.createElement('img');
+                imageElement.src = imageUrl;
+                imageElement.classList.add('posted-image');
+                
+                imageContainer.appendChild(imageElement);
+            });
+        });
+        
         document.getElementById('post-form').addEventListener('submit', function(event) {
             event.preventDefault();
             
             const imageInput = document.getElementById('image');
-            const imageContainer = document.getElementById('image-container');
             
             const imageFile = imageInput.files[0];
             if (imageFile) {
@@ -32,6 +46,11 @@
                 imageElement.classList.add('posted-image');
                 
                 imageContainer.appendChild(imageElement);
+                
+                // Save image URL to local storage
+                const images = JSON.parse(localStorage.getItem('images')) || [];
+                images.push(imageUrl);
+                localStorage.setItem('images', JSON.stringify(images));
             }
             
             imageInput.value = ''; // Clear input
