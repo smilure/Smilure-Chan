@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmilureChan</title>
+</head>
+<body>
+    <h1>SmilureChan</h1>
+    
+    <form id="post-form">
+        <label for="image">Upload an image:</label>
+        <input type="file" id="image" accept="image/*" required>
+        <button type="submit">Post</button>
+    </form>
+
+    <div id="image-container">
+        <!-- Images will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('post-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const imageInput = document.getElementById('image');
+            const imageContainer = document.getElementById('image-container');
+            
+            const imageFile = imageInput.files[0];
+            if (imageFile) {
+                const imageUrl = URL.createObjectURL(imageFile);
+                
+                const imageElement = document.createElement('img');
+                imageElement.src = imageUrl;
+                imageElement.classList.add('posted-image');
+                
+                imageContainer.appendChild(imageElement);
+            }
+            
+            imageInput.value = ''; // Clear input
+        });
+    </script>
+</body>
+</html>
